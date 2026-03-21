@@ -1,0 +1,49 @@
+const int ROJO = 13;
+const int AMARILLO = 12;
+const int VERDE = 11;
+
+unsigned long tiempoAnterior = 0;
+int estado = 0;
+
+void setup() {
+  pinMode(ROJO, OUTPUT);
+  pinMode(AMARILLO, OUTPUT);
+  pinMode(VERDE, OUTPUT);
+}
+
+void loop() {
+  unsigned long ahora = millis();
+
+  switch (estado) {
+
+    case 0: // ROJO
+      digitalWrite(ROJO, HIGH);
+      digitalWrite(AMARILLO, LOW);
+      digitalWrite(VERDE, LOW);
+      if (ahora - tiempoAnterior >= 5000) {
+        tiempoAnterior = ahora;
+        estado = 1;
+      }
+      break;
+
+    case 1: // AMARILLO
+      digitalWrite(ROJO, LOW);
+      digitalWrite(AMARILLO, HIGH);
+      digitalWrite(VERDE, LOW);
+      if (ahora - tiempoAnterior >= 2000) {
+        tiempoAnterior = ahora;
+        estado = 2;
+      }
+      break;
+
+    case 2: // VERDE
+      digitalWrite(ROJO, LOW);
+      digitalWrite(AMARILLO, LOW);
+      digitalWrite(VERDE, HIGH);
+      if (ahora - tiempoAnterior >= 5000) {
+        tiempoAnterior = ahora;
+        estado = 0;
+      }
+      break;
+  }
+}
